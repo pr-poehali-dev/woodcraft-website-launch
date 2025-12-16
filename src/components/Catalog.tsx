@@ -15,6 +15,7 @@ interface Product {
 
 interface CatalogProps {
   onAddToCart: (product: Product) => void;
+  onOrderNow?: (product: Product) => void;
 }
 
 const products: Product[] = [
@@ -70,7 +71,7 @@ const products: Product[] = [
 
 const categories = ['Все', 'Столы', 'Полки', 'Шкафы'];
 
-export default function Catalog({ onAddToCart }: CatalogProps) {
+export default function Catalog({ onAddToCart, onOrderNow }: CatalogProps) {
   const [selectedCategory, setSelectedCategory] = useState('Все');
 
   const filteredProducts =
@@ -131,13 +132,20 @@ export default function Catalog({ onAddToCart }: CatalogProps) {
                   {product.price.toLocaleString('ru-RU')} ₽
                 </p>
               </CardContent>
-              <CardFooter className="p-6 pt-0">
+              <CardFooter className="p-6 pt-0 flex gap-2">
                 <Button
-                  className="w-full"
+                  variant="outline"
+                  className="flex-1"
                   onClick={() => onAddToCart(product)}
                 >
                   <Icon name="ShoppingCart" size={20} className="mr-2" />
                   В корзину
+                </Button>
+                <Button
+                  className="flex-1"
+                  onClick={() => onOrderNow?.(product)}
+                >
+                  Заказать
                 </Button>
               </CardFooter>
             </Card>
